@@ -1,0 +1,67 @@
+@startuml
+!theme vibrant
+!include <office/Servers/application_server>
+!include <office/Servers/database_server>
+
+title SYS-265 FINAL TEAM: AWESOMESAUCE SQUAD
+
+nwdiag {
+
+    internet [shape = cloud];
+    internet -- fw_final
+    
+  network DMZ-SQUAD {
+      address = "10.0.17.x./24"
+      color = "red";
+      description = "DMZ: This is the not safe space";
+      // define group
+    group web  {
+      fw_final [description = " fw_final\n PfSense\n Firewall"]
+      color = "DeepSkyBlue"
+      description = "This is a kinda safe space"
+      }
+  }
+  network LAN-SQUAD {
+      address = "172.16.1.x/24"
+      color = "palegreen";
+      description = "LAN: This is the safe space";
+      fw_final [address = "172.16.1.2"];
+      
+      // define group
+      group dchp {
+      color = "Gold"
+      dhcp01 [address = "172.16.1.10", description = "<$database_server>\n dhcp01-squad\n OS: Centos7\n Service: DHCP"]
+      dhcp02 [address = "172.16.1.11", description = "<$database_server>\n dhcp02-squad\n OS: Centos7\n Service: DHCP Redundancy"]
+      }
+    group dc  {
+      color = "lightblue"
+      dc01 [address = "172.16.1.12", description = "<$database_server>\n dc01-squad\n OS: Server19\n Service: DNS"]
+      dc02 [address = "172.16.1.13", description = "<$database_server>\n dc02-squad\n OS: Server19\n Service: DNS Redundancy"]
+    }
+    group Util {
+      color = "Sienna"
+      util01 [address = "172.16.1.15", description = "<$database_server>\n Util01-squad\n OS: Centos7\n Service: Something"]
+  }
+    group mgmt {
+      color = "LightSeaGreen"
+      mgmt01 [address = "172.16.1.14", description = "<U+1F3E2>\n mgmt01-squad\n OS: Server19\n Service: mgmt"]
+      mgmt02 [address = "172.16.1.16", description = "<U+1F3E2>\n mgmt02-squad\n OS: Server19\n Service: mgmt Redundancy"]
+      }
+    group dfs {
+      color = "Lime"
+      dfs01 [address = "172.16.1.17", description = "<U+1F4C1>\n dhcp01-squad\n OS: Server1\n Service: File System"]
+      dfs02 [address = "172.16.1.18", description = "<U+1F4C1>\n dhcp02-squad\n OS: Server19\n Service: File System again"]
+      }
+    group wks {
+      color = "IndianRed"
+      wks01 [address = "DHCP", description = "<U+1F4BB>\n wks01-squad\n OS: Windows 10\n Service: Client System"]
+      wks02 [address = "DHCP", description = "<U+1F4BB>\n wks02-squad\n OS: Windows 10\n Service: Client System"]
+      }
+    group docker {
+      color = "MistyRose"
+      docker01 [address = "172.16.1.19", description = "<$database_server>\n docker01-squad\n OS: Ubuntu\n Service: Docker"]
+  }
+
+  }
+}
+@enduml
